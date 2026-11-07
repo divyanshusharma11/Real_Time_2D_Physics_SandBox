@@ -3,16 +3,16 @@
 
 
 int main() {
-    InitWindow(800, 600, "Physics Sandbox");   // 800x600 ki window kholo
-    SetTargetFPS(60);                          // 1 second mein 60 frames
+    InitWindow(800, 600, "Physics Sandbox");   // open an 800x600 window
+    SetTargetFPS(60);                          // cap the frame rate at 60 FPS
 
 
     Solver solver;
     float spawnTimer=0;
     const int maxBall=300;
 
-    while (!WindowShouldClose()) {     // jab tak window band na ho
-        float dt = GetFrameTime();     // pichle frame se kitna time hua
+    while (!WindowShouldClose()) {     // run until the window is closed
+        float dt = GetFrameTime();     // time since the last frame (seconds)
         spawnTimer=spawnTimer+dt;
         if(spawnTimer>0.05f && solver.getParticles().size()<maxBall){
             spawnTimer=0;
@@ -33,7 +33,7 @@ int main() {
 
         }         
         
-        DrawFPS(10, 10);                  // kone mein FPS dikhao
+        DrawFPS(10, 10);                  // show FPS in the top-left corner
         EndDrawing();
     }
     CloseWindow();
