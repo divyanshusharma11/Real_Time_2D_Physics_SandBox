@@ -32,18 +32,19 @@ This project aims to build a physics engine from scratch, implementing efficient
 ## Project Architecture
 
 ```text
-Project/
+Real_Time_2D_Physics_SandBox/
 ├── CMakeLists.txt
 ├── README.md
-├── main.cpp
 └── src/
+    ├── main.cpp
     ├── solver.hpp
     └── ui.hpp
 ```
 
-- **solver.hpp:** Particle management, gravity, Verlet integration, and collision handling.
-- **ui.hpp:** Rendering helpers, speed-based colours, and HUD.
-- **main.cpp:** Integrates physics, rendering, and user interaction.
+- **solver.hpp:** Handles particle management, gravity, Verlet integration, boundary constraints, and collision detection and resolution.
+- **ui.hpp:** Contains rendering helper functions, speed-based particle colours, and HUD elements.
+- **main.cpp:** Acts as the main application entry point, connecting the physics engine, rendering system, and user interactions.
+- **CMakeLists.txt:** Configures the project build system and manages the Raylib dependency.
 
 ## Team Responsibilities
 
