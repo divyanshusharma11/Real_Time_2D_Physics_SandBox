@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "solver.hpp"
+#include "ui.hpp"
 
 
 int main() {
@@ -19,6 +20,9 @@ int main() {
             solver.addParticle({400.0f + GetRandomValue(-50, 50), 100}, 10, SKYBLUE);
 
         }
+        if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
+            solver.addParticle(GetMousePosition(), 10, SKYBLUE);
+        }
         solver.updateDt(dt); //our physics
 
         BeginDrawing();
@@ -27,13 +31,15 @@ int main() {
          const     vector<Particle> &balls= solver.getParticles();
         for(int i = 0 ; i <balls.size();i++){
            
+            float speed=Vector2Length(balls[i].pos-balls[i].oldPos);
             
 
-            DrawCircleV(balls[i].pos, balls[i].radius, balls[i].color);
+            DrawCircleV(balls[i].pos, balls[i].radius, speedToColor(speed));
 
         }         
         
-        DrawFPS(10, 10);                  // show FPS in the top-left corner
+        // DrawFPS(10, 10); // show FPS in the top-left corner
+        drawHUD(balls.size());    // FPS + ball count + controls 
         EndDrawing();
     }
     CloseWindow();
