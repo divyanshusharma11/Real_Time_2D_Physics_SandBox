@@ -1,25 +1,39 @@
 #include "raylib.h"
+#include "solver.hpp"
+
 
 int main() {
-    InitWindow(800, 600, "Physics Sandbox");   // 800x600 ki window kholo
-    SetTargetFPS(60);                          // 1 second mein 60 frames
+    InitWindow(800, 600, "Physics Sandbox");   // open an 800x600 window
+    SetTargetFPS(60);                          // cap the frame rate at 60 FPS
 
-    Vector2 pos = {400, 100};   // ball ki position (x, y)
-    float vy = 0;               // ball ki neeche ki speed
 
-    while (!WindowShouldClose()) {     // jab tak window band na ho
-        float dt = GetFrameTime();     // pichle frame se kitna time hua
-        vy += 980 * dt;                // gravity: speed badhti jaati hai
-        pos.y += vy * dt;              // speed se position badlo
-        if (pos.y > 580) {             // zameen se takrayi?
-            pos.y = 580;
-            vy *= -0.7f;               // ulta uchhlo, 30% energy kam
+    Solver solver;
+    float spawnTimer=0;
+    const int maxBall=300;
+
+    while (!WindowShouldClose()) {     // run until the window is closed
+        float dt = GetFrameTime();     // time since the last frame (seconds)
+        spawnTimer=spawnTimer+dt;
+        if(spawnTimer>0.05f && solver.getParticles().size()<maxBall){
+            spawnTimer=0;
+            solver.addParticle({400.0f + GetRandomValue(-50, 50), 100}, 10, SKYBLUE);
+
         }
+        solver.updateDt(dt); //our physics
 
         BeginDrawing();
-        ClearBackground(BLACK);           // screen kaali karo
-        DrawCircleV(pos, 20, SKYBLUE);    // ball banao
-        DrawFPS(10, 10);                  // kone mein FPS dikhao
+        ClearBackground(BLACK); 
+        DrawCircleV(solver.Centre, solver.boundaryRadius, DARKGRAY); //OUR MAIN BOWL
+         const     vector<Particle> &balls= solver.getParticles();
+        for(int i = 0 ; i <balls.size();i++){
+           
+            
+
+            DrawCircleV(balls[i].pos, balls[i].radius, balls[i].color);
+
+        }         
+        
+        DrawFPS(10, 10);                  // show FPS in the top-left corner
         EndDrawing();
     }
     CloseWindow();
