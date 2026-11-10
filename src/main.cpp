@@ -10,20 +10,21 @@ int main() {
 
     Solver solver;
     float spawnTimer=0;
-    const int maxBall=300;
+    const int maxBall=3000;
 
     while (!WindowShouldClose()) {     // run until the window is closed
         float dt = GetFrameTime();     // time since the last frame (seconds)
         spawnTimer=spawnTimer+dt;
         if(spawnTimer>0.05f && solver.getParticles().size()<maxBall){
             spawnTimer=0;
-            solver.addParticle({400.0f + GetRandomValue(-50, 50), 100}, 10, SKYBLUE);
+            solver.addParticle({400.0f + GetRandomValue(-120,120), 100}, 4, SKYBLUE);
 
         }
         if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
-            solver.addParticle(GetMousePosition(), 10, SKYBLUE);
+            solver.addParticle(GetMousePosition(), 4, SKYBLUE);
         }
-        solver.updateDt(dt); //our physics
+        if(IsKeyPressed(KEY_G)) solver.useGrid=!solver.useGrid; //G press, reverse the mode
+        solver.updateDt(1.0f/60.0f); //our physics
 
         BeginDrawing();
         ClearBackground(BLACK); 
@@ -39,7 +40,7 @@ int main() {
         }         
         
         // DrawFPS(10, 10); // show FPS in the top-left corner
-        drawHUD(balls.size());    // FPS + ball count + controls 
+        drawHUD(balls.size(),solver.useGrid);    // FPS + ball count + controls 
         EndDrawing();
     }
     CloseWindow();
