@@ -2,6 +2,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "solver.hpp"
 
 // ==========================================
 // 1. SPEED-BASED BALL COLOR
@@ -33,7 +34,7 @@ inline Color speedToColor(float speed) {
 // 2. HEADS-UP DISPLAY (HUD)
 // ==========================================
 
-inline void drawHUD(int ballCount) {
+inline void drawHUD(int ballCount, bool useGrid) {
 
     // Display current FPS
     DrawFPS(10, 10);
@@ -49,4 +50,6 @@ inline void drawHUD(int ballCount) {
         "Left click: spawn ball",
         10, 60, 16, GRAY
     );
+
+    DrawText(useGrid? "Mode: Grid(G)" : "Mode: Brute force(G)", 10, 85, 20, YELLOW);
 }
